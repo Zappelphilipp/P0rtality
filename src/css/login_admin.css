@@ -1,0 +1,57 @@
+/*Downloaded from https://www.codeseek.co/paulhbarker/minimal-sign-in-form-with-bulmaio-mwOREz */
+
+#login .login-card {
+  background: #fff;
+}
+#login .login-card .card-title {
+  background-color: #ffef0e;
+}
+#login .login-card .card-title h1 {
+  color: #000;
+}
+
+#login .login-card #email,
+#login .login-card #password,
+#login .login-card #user,
+#login .login-card #pass {
+  border-bottom: 1px solid #dbdbdb;
+}
+#login .login-card #email:hover,
+#login .login-card #password:hover {
+  border-color: #7a7a7a;
+}
+#login .login-card #email:active,
+#login .login-card #email:focus,
+#login .login-card #password:active,
+#login .login-card #password:focus {
+  border-color: #ffee00;
+}
+#login .login-card .checkbox {
+  color: #b5b5b5;
+}
+
+#login .login-card .options {
+  color: #b5b5b5;
+}
+#login .login-card button {
+  color: #000;
+  border: 2px solid #ffee00;
+}
+#login .login-card button:hover,
+#login .login-card button:focus {
+  color: #000;
+  border-color: #ffee00;
+}
+
+.regular-checkbox + label {
+  background-color: #fafafa;
+  border: 1px solid #dbdbdb;
+}
+
+.regular-checkbox:checked + label {
+  background-color: #e9ecee;
+}
+
+.regular-checkbox:checked + label:after {
+  color: #b5b5b5;
+}

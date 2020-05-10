@@ -1,0 +1,184 @@
+/*@import url('https://fonts.googleapis.com/css?family=Roboto');*/
+
+body{
+    background-image: url(../img/portal_background.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: top;
+    width: 100%;
+    height:100%;
+}
+
+.main{
+    display: block; 
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 10%; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+.content{
+    position: relative;
+    background-color: #fefefedc;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid rgb(233, 233, 233);
+    width: 80%;
+    max-width: 640px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2),0 3px 10px 0 rgba(0,0,0,0.19);
+    border-radius: 25px;
+}
+
+.content div{
+    padding: 2px;
+}
+.logo{
+    display: block;
+}
+
+#logoimg{
+    max-width: 100%;
+}
+
+.form{
+    display: block;
+    align-items: center;
+    margin: auto;
+}
+
+.row{
+    align-items: center;
+}
+
+.header{
+    font-size: larger;
+    font-weight: bold;
+}
+
+.label{
+    grid-area: "form-label";
+    width: 100%;
+    color: black;
+    padding: 5px 10px;
+    border: none;
+}
+
+.main header{
+    text-align: center;
+    font-size: 30px;
+    width: 100%;
+}
+
+input{
+    border: 1px solid black;
+    border-radius: 5%;
+    overflow: hidden;
+}
+
+input[type=text], input[type=password], select {
+    width: 100%;
+    padding: 5px 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.submit{
+    grid-area: "submit";
+}
+
+button {
+    width: 100%;
+    color: black;
+    background-color: #a7a7a7;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#loadingInfo{
+    display: none;
+    z-index: -1;
+    animation: slide-in 0.5s;
+    overflow-wrap: break-word;
+}
+
+#loadingMessage{
+    text-align: center;
+    align-self: center;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+input:focus, select:focus {
+    box-shadow: 0px 0px 3px 2px #000000;
+    box-shadow: 0px 0px 3px 2px #0000007a;
+}
+
+/*
+.clickable:hover{
+    box-shadow: 0px 0px 3px 2px #000000;
+    box-shadow: 0px 0px 3px 2px #0000007a;
+}
+*/
+
+/*Animation*/
+
+@keyframes slide-in{
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+/* Loading Icon */
+
+.lds-dual-ring {
+    display: inline-block;
+    align-self: center;
+    width: 80px;
+    height: 80px;
+  }
+  .lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    border-color: #a7a7a7 transparent #a7a7a7 transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+

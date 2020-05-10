@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title><?php echo $GLOBALS['companyName']; ?> WiFi Login</title>
+    <link rel="stylesheet" href="./css/bulma_0.8.0/bulma.min.css">
+    <link rel="stylesheet" href="./css/login_common.css">
+    <link rel="stylesheet" href="./css/login_user.css">
+</head>
+
+<body>
+    <script src="./js/index.js"></script>
+    <div class="background-image"></div>
+    <div class="content">
+        <div id="login">
+            <div class="login-card">
+
+                <div class="card-title">
+                    <h1><?php echo $GLOBALS['companyName']; ?> WiFi Login</h1>
+                </div>
+
+                <div class="content">
+                    <?php 
+                    if(isset($_SESSION["message"])){
+                    ?>
+                    <div class="notification is-danger">
+                        <?php echo $_SESSION["message"]; ?>
+                    </div>
+                    <?php }
+                    ?>
+                    <form action="auth.php" method="post">
+
+                        <!-- <input id="email" type="email" name="email" title="email" placeholder="Email" required autofocus> -->
+                        <input id="user" type="text" name="user" title="User" placeholder="Username" required autofocus>
+                        <input id="pass" type="password" name="pass" title="Password" placeholder="Password" required>
+
+                        <!--<input id="password" type="password" name="password" title="password" placeholder="Password" required> -->
+
+                        <button type="submit" id="loginButton" class="btn is-primary is-outlined"
+                            onclick="loadingIcon();">Login</button>
+                    </form>
+
+                    <hr>
+                    <div class="level options">
+                        <a class="level-right" href="./admin.php">Admin Login</a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

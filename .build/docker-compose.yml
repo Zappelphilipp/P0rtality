@@ -1,0 +1,53 @@
+
+version: '3'
+services:
+  web:
+#    build:
+#      context: .
+#      dockerfile: php_custom.Dockerfile
+    image: nginx:latest
+    container_name: guest_portal_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./volumes/nginx/code:/code
+      - ./volumes/nginx/conf/site.conf:/etc/nginx/conf.d/000_site.conf
+    links:
+      - php
+      - mysqldb
+    depends_on:
+      - mysqldb
+  php:
+    build:
+      context: .
+      dockerfile: php_custom.Dockerfile
+#    image: php:7-fpm
+    container_name: guest_portal_php
+    volumes:
+      - ./volumes/nginx/code:/code
+    links:
+      - mysqldb
+  mysqldb:
+    image: mysql:${MYSQL_VERSION}
+    container_name: guest_portal_${MYSQL_HOST}
+    restart: always
+    env_file:
+      - ".env"
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+#    ports:
+#      - "8989:3306"
+    volumes:
+      - "./volumes/mysql/data:/var/lib/mysql"
+      - ./import_db.sql:/docker-entrypoint-initdb.d/dump.sql
+
+
+
+
+
+
+
+

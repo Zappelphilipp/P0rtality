@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title><?php echo $GLOBALS['companyName']; ?> WiFi User Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+
+<body>
+    <script src="./js/admin.js"></script>
+
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    <?php echo $GLOBALS['companyName']; ?> WiFi User Management
+                </h1>
+                <h2 class="subtitle">
+                    Show all them <strong>Users</strong>!
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="notification is-light">
+                        <div class="subtitle">
+                            Welcome, <strong>Admin</strong>
+                        </div>
+                <a href="admin.php?logout=1" class="button is-danger is-outlined">Logout</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-four-fifths">
+                    <h3 class="subtitle">Users in Database:</h3>
+                    <table class="table is-fullwidth">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Sessions</th>
+                                <th>Status</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $datas = getUsers();
+                            foreach($datas as $data)
+                            {
+                                $username = $data['username'];
+                                echo "<tr>";
+                                    echo "<td>" . $data["username"] . "</td>";
+                                    echo "<td>" . $data["sessions"] . "</td>";
+                                    echo "<td>";
+                                    if($data["enabled"] == 0) {
+                                        echo '<span class="tag is-danger">Disabled</span>';
+                                    }
+                                    else{
+                                        echo '<span class="tag is-success">Enabled</span>';
+                                    }
+                                    echo "</td>";
+                                    echo "<td>";
+                                        ?>
+                            <button class="button is-danger is-small"
+                                onclick="deleteUser('<?php echo $username; ?>');">Delete</button>
+                            <?php
+                                    echo "</td>";
+                                echo "</tr>";
+                            }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="column box">
+                    <h3 class="subtitle">Create new User:</h3>
+                    <form action="admin.php" method="post">
+                        <div class="form">
+                            <div class="field ">
+                                <label class="label">Username:</label>
+                                <div class="control">
+                                    <input type="text" size="32" id="user" name="user" class="input"
+                                        placeholder="username" required />
+                                </div>
+                            </div>
+                            <div class="field ">
+                                <label class="label">Password:</label>
+                                <div class="control">
+                                    <input type="password" size="32" id="user" name="pass" class="input"
+                                        placeholder="password" required />
+                                </div>
+                            </div>
+                            <div class="field"></div>
+                            <button id="submit" class="button is-primary">Create</button>
+                        </div>
+                </div>
+                </form>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h3 class="subtitle">Sessions</h3>
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Hostname</th>
+                        <th>IP</th>
+                        <th>TX/RX in MB</th>
+                        <th>User</th>
+                        <th>Unauthorize MAC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                            $datas = $ubnController->list_guests();
+                            foreach($datas as $data)
+                            {
+                                if($data->expired != 1) {
+                                    
+                                    $device = $ubnController->stat_client($data->mac);
+
+                                    echo "<tr>";
+                                        echo "<td>" . gmdate("d.m.Y\TH:i:s\Z", $data->start) . "</td>";
+                                        echo "<td>" . gmdate("H:i:s\Z", $data->end) . "</td>";
+                                        echo "<td>" . $data->hostname . "</td>";
+                                        echo "<td>" . $device[0]->ip . "</td>";
+                                        echo "<td>" . round($data->tx_bytes / 1000 / 1000, 1) . ' / ' . round($data->rx_bytes / 1000 / 1000, 1) . "</td>";
+                                        echo "<td>" . getLastMacUser($data->mac) . "</td>";
+                                        echo "<td>";
+                                            ?>
+                    <button class="button is-danger is-small"
+                        onclick="unauthorizeGuest('<?php echo $data->mac; ?>');"><?php echo $data->mac; ?></button>
+                    <?php
+                                            echo "</td>";
+                                    echo "</tr>";
+                                }
+                                
+                            }
+                            
+                        ?>
+                </tbody>
+            </table>
+            <?php
+                //$datas = $ubnController->stat_client("d2:5d:7c:7e:46:16");//list_guests();
+                //echo '<pre>'; print_r($datas); echo '</pre>';
+                ?>
+
+        </div>
+
+    </section>
+
+    <section>
+        <div class="container">
+            <h3 class="subtitle">Last Logins</h3>
+
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Timestamp</th>
+                        <th>Access Point</th>
+                        <th>Mac Adress</th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $datas = getXSessions($GLOBALS['displayXSessions']);
+                        foreach($datas as $data)
+                        {                                        
+                            echo "<tr>";
+                            echo "<td>" . $data['id'] . "</td>";
+                            echo "<td>" . $data['username'] . "</td>";
+                            echo "<td>" . $data['mac'] . "</td>";
+                            echo "<td>" . $data['ap'] . "</td>";
+                            echo "<td>" . $data['timestamp'] . "</td>";
+                            echo "</tr>";
+                        }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+
+    <!-- Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Confirm</p>
+                <button class="delete" aria-label="close" onclick="hideModal();"></button>
+            </header>
+            <section class="modal-card-body" id="modalContent">
+            </section>
+            <footer class="modal-card-foot">
+                <a id="modalLink" href="admin.php" target="_self"><button class="button is-success">Save
+                        changes</button></a>
+                <button class="button" onclick="hideModal();">Cancel</button>
+            </footer>
+        </div>
+    </div>
+
+</body>
+
+</html>

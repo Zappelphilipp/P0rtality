@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><?php echo $GLOBALS['companyName']; ?>WLAN User Management</title>
+    <script src="./js/index.js"></script>
+	<link rel="stylesheet" href="./css/index.css" />
+</head>
+
+<body>
+	<div class="main">
+        <div id="overlay">
+            
+		<div class="content">
+            <div class="logo">
+                <img id="logoimg" src="./img/logo.png"/>
+            </div>
+            <div class="form">
+                <div class="row header">
+                    Neuen WLAN-Nutzer anlegen:
+                </div>
+                <hr>
+                <form action="createUser.php" method="post">
+
+                    <?php 
+                    if(isset($_SESSION["message"])){
+                    ?>
+                    <div class="row">
+                        <div class="label"><?php echo $_SESSION["message"]; ?></div>
+                    </div>
+                    <?php }
+                    ?>
+                    <div class="row">
+                        <div class="label">Username:</div>
+                        <div class="input"><input type="text" size="32" id="user" name="user" class="clickable" required/></div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Password:</div>
+                        <div class="input"><input type="password" size="32" id="pass" name="pass" class="clickable" required/></div>
+                    </div>
+                    <div class="submit">
+                        <button id="submit" class="clickable" onclick="displayLoadingInfo('loading...');">Anlegen</button>
+                    </div>
+                </form>
+            </div>
+		</div>
+        <div id="loadingInfo" class="content">
+            <div class="lds-dual-ring"></div>
+            <div id="loadingMessage"></div>
+        </div>
+    </div>
+    </div>
+    
+    
+</body>
+</html>
